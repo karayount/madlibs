@@ -26,11 +26,11 @@ def say_hello():
     return render_template("hello.html")
 
 
-@app.route('/greet')
+@app.route('/greet', methods=["POST"])
 def greet_person():
     """Greet user."""
 
-    player = request.args.get("person")
+    player = request.form.get("person")
 
     compliment = choice(AWESOMENESS)
 
@@ -61,13 +61,15 @@ def show_madlib():
     other_adjective_response = request.args.get("other_adjective")
     adverb_response = request.args.getlist("adverb")
 
-    return render_template("madlib.html",
+    which_story = choice(["madlib.html", "meglib.html"])
+
+    return render_template(which_story,
                        person=person_response,
                        color=color_response,
                        noun=noun_response,
                        adjective=adjective_response,
                        other_adjective=other_adjective_response,
-                       adverb=adverb_response[0])
+                       adverb=choice(adverb_response))
     
 
 if __name__ == '__main__':
